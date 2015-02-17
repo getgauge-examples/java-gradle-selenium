@@ -12,3 +12,9 @@ Search for a customer
 ---------------------
 * Search for customer "user"
 * The customer "user" is listed
+
+Verify a bunch of customers
+---------------------------
+
+Can use a csv datasource!
+* Search for customers <table:user.csv>

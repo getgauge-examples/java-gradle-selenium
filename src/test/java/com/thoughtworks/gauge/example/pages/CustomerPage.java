@@ -15,6 +15,7 @@ public class CustomerPage extends BasePage {
     public WebElement usernameResult;
     
     public void searchUser(String username) {
+        q_username.clear();
         q_username.sendKeys(username);
         q_submit.click();
     }
