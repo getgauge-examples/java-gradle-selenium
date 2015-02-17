@@ -1,0 +1,6 @@
+# Delete product <name>
+
+Calls another concept below!
+
+* Find and Open product page for <name>
+* Delete this product
