@@ -14,6 +14,7 @@ This project serves as an example for writing Automation using [Gauge](https://g
 # Prerequisites
 - [Install Gauge](http://getgauge.io/download.html)
 - [Install Gauge-Java plugin](http://getgauge.io/#getstarted)
+- [Selenium Standalone Server](http://www.seleniumhq.org/download/) This should be added as a dependency in the project.
 - Gauge Intellij plugin (optional, but recommended)
 
 # Copyright
