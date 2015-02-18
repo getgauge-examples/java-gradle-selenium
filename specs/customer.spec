@@ -10,6 +10,8 @@ The below is a scenario, defined via H2 tag. You could also use "# Search for a 
 
 Search for a customer
 ---------------------
+tags: customer
+
 * Search for customer "user"
 * The customer "user" is listed
 
@@ -17,4 +19,4 @@ Verify a bunch of customers
 ---------------------------
 
 Can use a csv datasource!
-* Search for customers <table:user.csv>
+* Search for customers <table:resources/user.csv>
