@@ -13,12 +13,14 @@ This project serves as an example for writing Automation using [Gauge](https://g
 
 # Prerequisites
 - [Install Gauge](http://getgauge.io/download.html)
-- [Install Gauge-Java plugin](http://getgauge.io/#getstarted)
-- [Selenium Standalone Server](http://www.seleniumhq.org/download/) This should be added as a dependency in the project under ```libs``` directory.
+- [Install Gauge-Java plugin](http://getgauge.io/documentation/user/current/plugins/installation.html) by running ```gauge --install java```
+- Get the latest version of [Selenium Server Standalone Jar](http://selenium-release.storage.googleapis.com/index.html) This should be added as a dependency in the project under ```libs``` directory.
 - [Chrome browser executable](https://sites.google.com/a/chromium.org/chromedriver/downloads) should be in ```PATH``` for executing against chrome browser.
 - [Gauge Intellij plugin](https://plugins.jetbrains.com/plugin/7535) (optional, but recommended)
 
 # Executing specs
+
+## Command line
 ### All specs
 ````
 gauge specs/
