@@ -1,0 +1,32 @@
+apply plugin: 'java'
+apply plugin: 'application'
+
+group = "${group}"
+version = "${version}"
+
+
+repositories { mavenCentral() }
+
+
+sourceSets {
+    main.java.srcDir 'src'
+}
+dependencies {
+    compile 'org.seleniumhq.selenium:selenium-java:2.44.0'
+}
+
+def executeGauge() {
+    exec {
+        executable "gauge"
+        args "specs"
+    }
+}
+task copyToLib(type: Copy) {
+    into "$projectDir/libs"
+    from configurations.runtime
+}
+task gauge(dependsOn: 'copyToLib') {
+    doLast  {
+        executeGauge()
+    }
+}
