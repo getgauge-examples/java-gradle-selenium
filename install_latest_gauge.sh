@@ -11,7 +11,7 @@ else
 	GAUGE_FILE_NAME="gauge-$GAUGE_LATEST_VERSION-linux.x86.zip"
 fi
 
-GAUGE_DOWNLOAD_URL="https://github.com/getgauge/gauge/releases/download/v0.0.4/gauge-0.0.4-linux.x86_64.zip"
+GAUGE_DOWNLOAD_URL="https://github.com/getgauge/gauge/releases/download/v$GAUGE_LATEST_VERSION/$GAUGE_FILE_NAME"
 
 wget $GAUGE_DOWNLOAD_URL
 
