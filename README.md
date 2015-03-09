@@ -1,5 +1,7 @@
 # Gauge example project, in Java
 
+[![Build Status](https://snap-ci.com/getgauge/gauge-example-java/branch/master/build_image)](https://snap-ci.com/getgauge/gauge-example-java/branch/master)
+
 This project serves as an example for writing Automation using [Gauge](https://github.com/getgauge/gauge)
 
 # Concepts covered
