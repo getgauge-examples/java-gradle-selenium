@@ -3,6 +3,7 @@
 [![Build Status](https://snap-ci.com/getgauge/gauge-example-java/branch/master/build_image)](https://snap-ci.com/getgauge/gauge-example-java/branch/master)
 
 ###Last Run Reports (Powered by [Snap CI](https://snap-ci.com/))
+- [Console](https://gauge-reports-java.herokuapp.com/console)
 - [Html](https://gauge-reports-java.herokuapp.com/)
 
 This project serves as an example for writing Automation using [Gauge](https://github.com/getgauge/gauge)
