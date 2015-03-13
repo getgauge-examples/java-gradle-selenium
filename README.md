@@ -28,7 +28,7 @@ This project serves as an example for writing Automation using [Gauge](https://g
   ```
   gauge --install java
   ```
-- Get the latest version of Selenium Server Standalone Jar
+- Get the latest version of Selenium Server Standalone Jar, 2 ways are discussed below : 
   - [Selenium Jar](http://selenium-release.storage.googleapis.com/index.html) should be added as a dependency in the project under ```libs``` directory.
   - Use [Gradle](https://gradle.org/downloads) and run <br>
     ```
