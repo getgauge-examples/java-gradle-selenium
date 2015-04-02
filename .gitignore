@@ -3,7 +3,5 @@ out/
 logs/
 gauge_bin/
 libs/
-.idea/workspace.xml
-.idea/tasks.xml
-.idea/find.xml
+.idea
 .gradle/
