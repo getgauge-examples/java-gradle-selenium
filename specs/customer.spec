@@ -6,7 +6,7 @@ The below is a context step, gets executed before every scenario. Every unordere
 
 * On the customer page
 
-The below is a scenario, defined via H2 tag. You could also use "# Search for a customer"
+The below is a scenario, defined via H2 tag. You could also use "## Search for a customer"
 
 Search for a customer
 ---------------------
