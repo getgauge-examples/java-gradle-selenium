@@ -41,4 +41,11 @@ public class CustomerSpec {
             verifyUserIsListed(row.get(0));
         }
     }
+
+    @Step("Just registered customer is listed")
+    public void verifyJustRegisteredCustomerListed() {
+        CustomerPage customerPage = PageFactory.initElements(driver, CustomerPage.class);
+        String currentUser = customerPage.fetchStringFromScenarioDataStore("currentUser");
+        verifyUserIsListed(currentUser);
+    }
 }

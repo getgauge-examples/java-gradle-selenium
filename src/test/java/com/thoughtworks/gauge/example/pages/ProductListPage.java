@@ -1,12 +1,11 @@
 package com.thoughtworks.gauge.example.pages;
 
-import org.junit.Assert;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
-public class ProductListPage extends BasePage{
-    public static String ProductsUrl = Url.concat("products/");
+public class ProductListPage extends ProductPage{
+    public static String ProductsUrl = Url.concat("admin/products/");
     
     public WebElement q_title;
     
