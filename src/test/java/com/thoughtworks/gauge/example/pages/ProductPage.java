@@ -7,6 +7,9 @@ import org.openqa.selenium.support.How;
 
 public class ProductPage extends BasePage {
 
+    @FindBy(how = How.CSS, css = "#main_content table tbody tr:nth-child(1) td")
+    public WebElement productId;
+
     @FindBy(how = How.CSS, css = "#main_content table tbody tr:nth-child(2) td")
     public WebElement title;
 
@@ -22,8 +25,22 @@ public class ProductPage extends BasePage {
     @FindBy(how = How.CSS, css = "#titlebar_right div.action_items span.action_item:nth-child(2) a")
     public WebElement deleteButton;
 
-    public void verifyAuthor(String name) {
-        Assert.assertTrue(author.getText().equals(name));
+    public WebElement getWebElementByName(String elementName) {
+        switch (elementName) {
+            case "title":
+                return title;
+            case "description":
+                return description;
+            case "author":
+                return author;
+            case "price":
+                return price;
+        }
+        return null;
+    }
+
+    public void verifyProductSpecifier(WebElement specifier, String value) {
+        Assert.assertTrue(specifier.getText().equals(value));
     }
 
     public void delete() {
