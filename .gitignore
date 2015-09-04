@@ -5,3 +5,4 @@ gauge_bin/
 libs/
 .idea
 .gradle/
+*.iml
