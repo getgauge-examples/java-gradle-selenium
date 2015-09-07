@@ -5,7 +5,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 
 public class CustomerPage extends BasePage {
-    public static String CustomerUrl = Url.concat("customers/");
+    public static String CustomerUrl = Url.concat("admin/customers/");
 
     public WebElement q_username;
     
