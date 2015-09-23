@@ -1,18 +1,38 @@
 apply plugin: 'java'
+apply plugin: 'idea'
 apply plugin: 'application'
 
-group = "${group}"
-version = "${version}"
+group = "gauge-example-java"
+version = "1.0.0"
 
+description = "Gauge example using selenium web driver"
 
-repositories { mavenCentral() }
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath files("$projectDir/libs")
+    }
+}
+
+repositories {
+    mavenCentral()
+}
 
 sourceSets {
     main.java.srcDir 'src'
 }
+
 dependencies {
-    compile 'org.seleniumhq.selenium:selenium-java:2.44.0'
+    compile(
+            'com.thoughtworks.gauge:gauge-java:0.2.2',
+            'org.seleniumhq.selenium:selenium-java:2.47.1',
+            'junit:junit:4.12'
+    )
 }
 
 def executeGauge() {
@@ -21,11 +41,8 @@ def executeGauge() {
         args "specs"
     }
 }
-task copyToLib(type: Copy) {
-    into "$projectDir/libs"
-    from configurations.runtime
-}
-task gauge(dependsOn: 'copyToLib') {
+
+task gauge() {
     doLast  {
         executeGauge()
     }
