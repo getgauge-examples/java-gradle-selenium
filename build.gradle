@@ -42,7 +42,12 @@ def executeGauge() {
     }
 }
 
-task gauge() {
+task copyLibs(type: Copy) {
+    from configurations.runtime
+    into "$projectDir/libs"
+}
+
+task gauge(dependsOn: 'copyLibs') {
     doLast  {
         executeGauge()
     }
