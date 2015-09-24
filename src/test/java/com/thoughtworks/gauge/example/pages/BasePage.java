@@ -13,7 +13,7 @@ To use the examples locally you would need to follow these steps:
 */
 
 public abstract class BasePage {
-    protected static String Url = "http://localhost:3000/";
+    protected static String Url = "http://104.197.26.168:8000/";
 
     public void storeStringToScenarioDataStore(String key, String value) {
         DataStore scenarioStore = DataStoreFactory.getScenarioDataStore();
