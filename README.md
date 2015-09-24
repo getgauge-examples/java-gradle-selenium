@@ -38,6 +38,3 @@ gradlew.bat gauge
 * Running Gauge specs with [gradle](gradle.org)
   * Note that Gauge can also be used with other build tools like maven and ant.
   * You can use Gauge even without a build script!
-  
-# Copyright
-Copyright 2015, ThoughtWorks Inc.
