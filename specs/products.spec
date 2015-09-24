@@ -22,7 +22,7 @@ tags: admin, product, search
 * Verify product "author" as "John P. Baugh"
 
 Search and edit and existing product
-------------------------
+------------------------------------
 tags: admin, product, edit
 "Find and store productId for" and "Open product edit page for stored productId" uses the sceanrio datastore
 
