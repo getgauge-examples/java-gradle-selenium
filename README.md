@@ -1,61 +1,43 @@
-# Gauge example project, in Java
+# Gauge example in Java
 
 [![Build Status](https://snap-ci.com/getgauge/gauge-example-java/branch/master/build_image)](https://snap-ci.com/getgauge/gauge-example-java/branch/master)
 
-###Last Run Reports (Powered by [Snap CI](https://snap-ci.com/))
-- [Console](https://gauge-reports-java.herokuapp.com/console)
-- [Html](https://gauge-reports-java.herokuapp.com/)
+This is an example project for doing web automation testing with [Gauge](http://getgauge.io). This project tests some of the functionalities of the [active admin demo](https://github.com/getgauge/activeadmin-demo) app, which is hosted at http://104.197.26.168:8000/admin
 
-This project serves as an example for writing Automation using [Gauge](https://github.com/getgauge/gauge)
+## Running this example
+The tests are run on Firefox by default.
 
-# Concepts covered
+**Prerequisites:**
 
-- Use [Webdriver](http://docs.seleniumhq.org/projects/webdriver/) as base of implementation
-- [Specification](http://getgauge.io/documentation/user/current/specifications/README.html), [Scenario](http://getgauge.io/documentation/user/current/specifications/scenarios.html) & [Step](http://getgauge.io/documentation/user/current/specifications/steps.html) usage
-- [Concepts](http://getgauge.io/documentation/user/current/specifications/concepts.html)
-- [Table parameters](http://getgauge.io/documentation/user/current/specifications/parameters.html#table-parameter)
-- [External datasource (special param)](http://getgauge.io/documentation/user/current/specifications/parameters.html#special-parameters)
+This example requires the following softwares to run.
+  * [Java 1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or above
+    * Note that Gauge works with Java 1.6 and above. But this particular example uses Java 1.7
+  * [Gauge](http://getgauge.io/download.html)
+  * Gauge Java plugin
+    * Gauge Java plugin can be installed using `gauge --install java` 
 
+**On Linux / Mac:**
 
-# Prerequisites
-- [Install Gauge](http://getgauge.io/download.html)
-  - Homebrew on Mac OS X :  
-      ```
-      brew install gauge
-      ```
-  - [Download Installer](http://getgauge.io/download.html)
-- [Install Gauge-Java plugin](http://getgauge.io/documentation/user/current/plugins/installation.html) by running<br>
-  ```
-  gauge --install java
-  ```
-- Get the latest version of Selenium Server Standalone Jar, 2 ways are discussed below : 
-  - [Selenium Jar](http://selenium-release.storage.googleapis.com/index.html) should be added as a dependency in the project under ```libs``` directory.
-  - Use [Gradle](https://gradle.org/downloads) and run <br>
-    ```
-    gradle copyToLib
-    ```
-- [Chrome driver executable](https://sites.google.com/a/chromium.org/chromedriver/downloads) should be in ```PATH``` for executing against chrome browser.
-- [Gauge Intellij plugin](https://plugins.jetbrains.com/plugin/7535) (optional, but recommended). More information on plugin can be found [here](http://getgauge.io/documentation/user/current/ide_support/intellij_idea.html)
+```
+./gradlew gauge
+```
 
-# Executing specs
+**On Windows:**
 
-## Command line
-### All specs
-````
-gauge specs/
-````
-This will also compile all the supporting code implementations.
+```
+gradlew.bat gauge
+```
 
-### Run against chrome browser
-[Chrome driver executable](https://sites.google.com/a/chromium.org/chromedriver/downloads) should be in ```PATH``` for executing.
-- Command Line   
-  ```
-  gauge --env chrome specs/
-  ```
-- IDE 
-  1. Go to `Edit Configurations` dialog.
-  2. Enter 'chrome' to `Environment` text field.
-  3. Save the configuration and run it.
+## Topics covered in the example
+
+* [Specification](http://getgauge.io/documentation/user/current/specifications/README.html), [Scenario](http://getgauge.io/documentation/user/current/specifications/scenarios.html),  [Step](http://getgauge.io/documentation/user/current/specifications/steps.html), [Concepts](http://getgauge.io/documentation/user/current/specifications/concepts.html) and [Context Steps](http://getgauge.io/documentation/user/current/specifications/contexts.html)
+* [Table parameters](http://getgauge.io/documentation/user/current/specifications/parameters.html#table-parameter)
+* Using [External datasource (special param)](http://getgauge.io/documentation/user/current/specifications/parameters.html#special-parameters)
+* Using [tags](http://getgauge.io/documentation/user/current/specifications/tags.html)
+* Using Gauge with [Selenium Webdriver](http://docs.seleniumhq.org/projects/webdriver/)
+* Running Gauge specs with [gradle](gradle.org)
+  * Note that Gauge can also be used with other build tools like maven and ant.
+  * You can use Gauge even without a build script!
   
 # Copyright
 Copyright 2015, ThoughtWorks Inc.
