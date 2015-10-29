@@ -27,6 +27,11 @@ This example requires the following softwares to run.
 ```
 gradlew.bat gauge
 ```
+This runs Gauge specs with [gradle](gradle.org).
+
+Note:
+  * Gauge can also be used with other [build tools](http://getgauge.io/documentation/user/current/test_code/java/using_build_tools.html) like maven and ant.
+  * You can use Gauge even without a build script!
 
 ## Topics covered in the example
 
@@ -36,5 +41,3 @@ gradlew.bat gauge
 * Using [tags](http://getgauge.io/documentation/user/current/specifications/tags.html)
 * Using Gauge with [Selenium Webdriver](http://docs.seleniumhq.org/projects/webdriver/)
 * Running Gauge specs with [gradle](gradle.org)
-  * Note that Gauge can also be used with other build tools like maven and ant.
-  * You can use Gauge even without a build script!
