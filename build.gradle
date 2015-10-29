@@ -29,7 +29,7 @@ sourceSets {
 
 dependencies {
     compile(
-            'com.thoughtworks.gauge:gauge-java:0.2.2',
+            'com.thoughtworks.gauge:gauge-java:+',
             'org.seleniumhq.selenium:selenium-java:2.47.1',
             'junit:junit:4.12'
     )
