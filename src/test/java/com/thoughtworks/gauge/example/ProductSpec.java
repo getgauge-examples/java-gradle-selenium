@@ -2,6 +2,7 @@ package com.thoughtworks.gauge.example;
 
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
+import com.thoughtworks.gauge.TableRow;
 import com.thoughtworks.gauge.example.pages.CreateProductPage;
 import com.thoughtworks.gauge.example.pages.EditProductPage;
 import com.thoughtworks.gauge.example.pages.ProductListPage;
@@ -22,11 +23,12 @@ public class ProductSpec {
 
     @Step("Create a product <table>")
     public void CreateProduct(Table table) {
-        List<List<String>> rows = table.getRows();
-        for (List<String> row : rows) {
+        List<TableRow> rows = table.getTableRows();
+        List<String> columnNames = table.getColumnNames();
+        for (TableRow row : rows) {
             openNewProductsPage();
             CreateProductPage createProductPage = PageFactory.initElements(driver, CreateProductPage.class);
-            createProductPage.create(row.get(0),row.get(1), row.get(2), row.get(3));
+            createProductPage.create(row.getCell(columnNames.get(0)),row.getCell(columnNames.get(1)), row.getCell(columnNames.get(2)), row.getCell(columnNames.get(3)));
         }
     }
 
@@ -71,21 +73,23 @@ public class ProductSpec {
 
     @Step("Update product specifier to new value <table>")
     public void updateProductValue(Table table) {
-        List<List<String>> rows = table.getRows();
-        for (List<String> row : rows) {
+        List<TableRow> rows = table.getTableRows();
+        List<String> columnNames = table.getColumnNames();
+        for (TableRow row : rows) {
             openProductEditPage();
             EditProductPage editProductPage = PageFactory.initElements(driver, EditProductPage.class);
-            editProductPage.updateProductValue(row.get(0), row.get(1));
+            editProductPage.updateProductValue(row.getCell(columnNames.get(0)), row.getCell(columnNames.get(1)));
         }
     }
 
     @Step("Check product specifier has new value <table>")
     public void verifyProductValue(Table table) {
-        List<List<String>> rows = table.getRows();
-        for (List<String> row : rows) {
+        List<TableRow> rows = table.getTableRows();
+        List<String> columnNames = table.getColumnNames();
+        for (TableRow row : rows) {
             ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
-            WebElement specifier = productPage.getWebElementByName((row.get(0)));
-            productPage.verifyProductSpecifier(specifier, row.get(1));
+            WebElement specifier = productPage.getWebElementByName((row.getCell(columnNames.get(0))));
+            productPage.verifyProductSpecifier(specifier, row.getCell(columnNames.get(1)));
         }
     }
 }

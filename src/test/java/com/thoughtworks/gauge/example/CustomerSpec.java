@@ -1,6 +1,7 @@
 package com.thoughtworks.gauge.example;
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
+import com.thoughtworks.gauge.TableRow;
 import com.thoughtworks.gauge.example.pages.CustomerPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -33,12 +34,13 @@ public class CustomerSpec {
 
     @Step("Search for customers <table>")
     public void verifyCustomers(Table table) {
-        List<List<String>> rows = table.getRows();
+        List<TableRow> rows = table.getTableRows();
+        List<String> columnNames = table.getColumnNames();
         System.out.println(rows.size());
-        for (List<String> row : rows) {
-            searchUser(row.get(0));
-            System.out.println(row.get(0));
-            verifyUserIsListed(row.get(0));
+        for (TableRow row : rows) {
+            searchUser(row.getCell(columnNames.get(0)));
+            System.out.println(row.getCell(columnNames.get(0)));
+            verifyUserIsListed(row.getCell(columnNames.get(0)));
         }
     }
 
