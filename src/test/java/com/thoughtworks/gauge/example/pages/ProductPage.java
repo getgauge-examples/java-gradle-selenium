@@ -1,9 +1,13 @@
 package com.thoughtworks.gauge.example.pages;
 
 import org.junit.Assert;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class ProductPage extends BasePage {
 
@@ -43,7 +47,11 @@ public class ProductPage extends BasePage {
         Assert.assertTrue(specifier.getText().equals(value));
     }
 
-    public void delete() {
+    public void delete(WebDriver driver) {
         deleteButton.click();
+        WebDriverWait wait = new WebDriverWait(driver, 2);
+        wait.until(ExpectedConditions.alertIsPresent());
+        Alert alert = driver.switchTo().alert();
+        alert.accept();
     }
 }

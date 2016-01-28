@@ -7,3 +7,4 @@ libs/
 .gradle/
 *.iml
 build/
+*.log

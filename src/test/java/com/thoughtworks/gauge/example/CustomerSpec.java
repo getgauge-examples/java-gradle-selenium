@@ -36,10 +36,8 @@ public class CustomerSpec {
     public void verifyCustomers(Table table) {
         List<TableRow> rows = table.getTableRows();
         List<String> columnNames = table.getColumnNames();
-        System.out.println(rows.size());
         for (TableRow row : rows) {
             searchUser(row.getCell(columnNames.get(0)));
-            System.out.println(row.getCell(columnNames.get(0)));
             verifyUserIsListed(row.getCell(columnNames.get(0)));
         }
     }

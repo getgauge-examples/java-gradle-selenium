@@ -13,7 +13,7 @@ public class CreateProductPage extends BasePage {
     
     public WebElement product_price;
     
-    public WebElement product_submit;
+    public WebElement commit;
     
     public WebElement product_image_file_name;
     
@@ -24,6 +24,6 @@ public class CreateProductPage extends BasePage {
         product_author.sendKeys(author);
         product_price.sendKeys(price);
         product_image_file_name.sendKeys("not available");
-        product_submit.click();
+        commit.click();
     }
 }

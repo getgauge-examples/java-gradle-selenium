@@ -12,8 +12,8 @@ Search for a customer
 ---------------------
 tags: admin, customer, search
 
-* Search for customer "user"
-* The customer "user" is listed
+* Search for customer "ScroogeMcduck"
+* The customer "ScroogeMcduck" is listed
 
 Verify a bunch of customers
 ---------------------------

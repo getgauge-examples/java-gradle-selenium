@@ -9,14 +9,14 @@ public class ProductListPage extends ProductPage{
     
     public WebElement q_title;
     
-    public WebElement q_submit;
+    public WebElement commit;
 
     @FindBy(how = How.CSS, css = "#main_content table tbody tr:nth-child(1) td.product a")
     public WebElement firstProduct;
     
     public void search(String name) {
         q_title.sendKeys(name);
-        q_submit.click();
+        commit.click();
     }
 
     public void openFirstProduct() {

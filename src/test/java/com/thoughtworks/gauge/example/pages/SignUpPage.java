@@ -13,5 +13,5 @@ public class SignUpPage extends BasePage {
 
     public WebElement user_password_confirmation;
 
-    public WebElement user_submit;
+    public WebElement commit;
 }

@@ -32,7 +32,7 @@ public class UserSpec {
         signUpPage.user_email.sendKeys(username.concat("@domain.com"));
         signUpPage.user_password.sendKeys("qweqwe");
         signUpPage.user_password_confirmation.sendKeys("qweqwe");
-        signUpPage.user_submit.submit();
+        signUpPage.commit.submit();
         // store generated username
         signUpPage.storeStringToScenarioDataStore("currentUser", username);
     }

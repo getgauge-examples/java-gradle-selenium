@@ -57,7 +57,7 @@ public class ProductSpec {
     @Step("Delete this product")
     public void deleteProduct() {
         ProductPage productPage = PageFactory.initElements(driver, ProductPage.class);
-        productPage.delete();
+        productPage.delete(driver);
     }
 
     @Step("On new products page")

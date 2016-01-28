@@ -26,10 +26,10 @@ public class EditProductPage extends ProductPage {
 
     public WebElement product_image_file_name;
 
-    public WebElement product_submit;
+    public WebElement commit;
 
     public void saveProduct() {
-        product_submit.click();
+        commit.click();
     }
 
     public void updateProductValue(String specifier, String newValue) {

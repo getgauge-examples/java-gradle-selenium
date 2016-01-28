@@ -7,22 +7,31 @@ This is an example project for doing web automation testing with [Gauge](http://
 ## Running this example
 The tests are run on Firefox by default.
 
-**Prerequisites:**
+### Prerequisites
 
 This example requires the following softwares to run.
   * [Java 1.7](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) or above
     * Note that Gauge works with Java 1.6 and above. But this particular example uses Java 1.7
   * [Gauge](http://getgauge.io/download.html)
   * Gauge Java plugin
-    * Gauge Java plugin can be installed using `gauge --install java` 
+    * Gauge Java plugin can be installed using `gauge --install java`
+  
+### Setting up the System Under Test (SUT)
 
-**On Linux / Mac:**
+* Download [activeadmin-demo.war](https://bintray.com/artifact/download/gauge/activeadmin-demo/activeadmin-demo.war)
+* Bring up the SUT by executing the below command
+```
+java -jar activeadmin-demo.war
+```
+* The SUT should now be available at [http://localhost:8080/](http://localhost:8080]
+
+### On Linux / Mac
 
 ```
 ./gradlew gauge
 ```
 
-**On Windows:**
+### On Windows
 
 ```
 gradlew.bat gauge
