@@ -1,6 +1,8 @@
 # Gauge example in Java
 
 [![Build Status](https://snap-ci.com/getgauge/gauge-example-java/branch/master/build_image)](https://snap-ci.com/getgauge/gauge-example-java/branch/master)
+[![HTML report](https://img.shields.io/badge/report-html-green.svg)](http://gauge-example-report.herokuapp.com/java)
+[![HTML report](https://img.shields.io/badge/report-console-blue.svg)](http://gauge-example-report.herokuapp.com/java)
 
 This is an example project for doing web automation testing with [Gauge](http://getgauge.io). This project tests some of the functionalities of the [active admin demo](https://github.com/getgauge/activeadmin-demo) app. This app is hosted as a Java WAR (with embedded Jetty). 
 
@@ -23,7 +25,7 @@ This example requires the following softwares to run.
 ```
 java -jar activeadmin-demo.war
 ```
-* The SUT should now be available at [http://localhost:8080/](http://localhost:8080]
+* The SUT should now be available at [http://localhost:8080/](http://localhost:8080)
 
 ### On Linux / Mac
 
