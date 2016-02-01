@@ -1,0 +1,69 @@
+/*Copyright 2015 ThoughtWorks, Inc.*/
+
+/*This file is part of getgauge/html-report.*/
+
+/*getgauge/html-report is free software: you can redistribute it and/or modify*/
+/*it under the terms of the GNU General Public License as published by*/
+/*the Free Software Foundation, either version 3 of the License, or*/
+/*(at your option) any later version.*/
+
+/*getgauge/html-report is distributed in the hope that it will be useful,*/
+/*but WITHOUT ANY WARRANTY; without even the implied warranty of*/
+/*MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the*/
+/*GNU General Public License for more details.*/
+
+/*You should have received a copy of the GNU General Public License*/
+/*along with getgauge/html-report.  If not, see <http://www.gnu.org/licenses/>.*/
+
+.angular-hovercard {
+    display: inline-block;
+    position: relative;
+}
+
+.angular-hovercard-label {
+    color: navy;
+    font-weight: bold;
+    position: relative;
+}
+
+.angular-hovercard-label.angular-hovercard-active {
+    z-index: 99;
+}
+
+.angular-hovercard-detail {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+
+    -webkit-box-shadow: 5px 5px 5px #888;
+    -moz-box-shadow: 5px 5px 5px #888;
+    box-shadow: 5px 5px 5px #888;
+
+    -webkit-transition: opacity 0.5s;
+    -moz-transition: opacity 0.5s;
+    -o-transition: opacity 0.5s;
+    transition: opacity 0.5s;
+
+    background: white;
+    border: 1px solid #ddd;
+    opacity: 0;
+    padding: 1em;
+    position: absolute;
+    max-height: 400px;
+    max-width: 400px;
+    visibility: hidden;
+    z-index: 98;
+}
+
+.angular-hovercard-detail.angular-hovercard-active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.angular-hovercard-detail div, .angular-hovercard-detail div pre {
+    overflow: scroll;
+    overflow-y: auto;
+    overflow-x: auto;
+    max-height: 400px;
+    max-width: 400px;
+}

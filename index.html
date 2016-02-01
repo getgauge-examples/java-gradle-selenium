@@ -1,64 +1,538 @@
+<!--Copyright 2015 ThoughtWorks, Inc.-->
+
+<!--This file is part of getgauge/html-report.-->
+
+<!--getgauge/html-report is free software: you can redistribute it and/or modify-->
+<!--it under the terms of the GNU General Public License as published by-->
+<!--the Free Software Foundation, either version 3 of the License, or-->
+<!--(at your option) any later version.-->
+
+<!--getgauge/html-report is distributed in the hope that it will be useful,-->
+<!--but WITHOUT ANY WARRANTY; without even the implied warranty of-->
+<!--MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the-->
+<!--GNU General Public License for more details.-->
+
+<!--You should have received a copy of the GNU General Public License-->
+<!--along with getgauge/html-report.  If not, see <http://www.gnu.org/licenses/>.-->
+
 <!doctype html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Gauge-example-java by getgauge</title>
+<html ng-app="gauge_report" id="ng-app">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE"/>
+    <title>Gauge Test Results</title>
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-light.css">
-    <meta name="viewport" content="width=device-width">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-  </head>
-  <body>
-    <div class="wrapper">
-      <header>
-        <h1>Gauge-example-java</h1>
-        <p>A sample project illustrating Gauge features using webdriver</p>
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
 
-        <p class="view"><a href="https://github.com/getgauge/gauge-example-java">View the Project on GitHub <small>getgauge/gauge-example-java</small></a></p>
+    <link rel="stylesheet" type="text/css"
+          href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,400italic,700,700italic">
+    <link rel="stylesheet" type="text/css"
+          href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="css/angular-hovercard.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
+    <script type="text/ng-template" id="datatable.html">
+        <table class="data-table">
+            <tr>
+                <th ng-repeat="header in item.table.headers.cells">{{header}}</th>
+            </tr>
+            <tbody>
+
+            <tr ng-repeat="row in item.table.rows track by $index" ng-click="setDataTableIndex($index)"
+                ng-class="{'failed' : isRowFailure($index), 'passed': !isRowFailure($index), 'selected':$index==dataTableIndex}">
+                <td ng-repeat="cell in row.cells track by $index">{{cell}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </script>
+
+    <script type="text/ng-template" id="parameterTableDetail.html">
+        <span ng-include src="'table.html'"></span>
+    </script>
+
+    <script type="text/ng-template" id="specialString.html">
+        <div>
+            <p>{{fragment.parameter.value}}</p>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="table.html">
+        <div>
+            <table>
+                <tr>
+                    <th ng-repeat="header in fragment.parameter.table.headers.cells">{{header}}</th>
+                </tr>
+                <tbody>
+                <tr ng-repeat="row in fragment.parameter.table.rows">
+                    <td ng-repeat="cell in row.cells track by $index">{{cell}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="item-render.html">
+        <div ng-switch="itemTypesMap[item.itemType]">
+            <div ng-switch-when="Step" class="step">
+                {{setCurrentStep(item.step)}}
+                <div ng-include src="'step.html'"></div>
+            </div>
+            <div ng-switch-when="Concept" class="step concept">
+                {{setCurrentStep(item.concept.conceptStep)}}
+                {{setConcept(item.concept)}}
+                <div ng-init="collapse=false" ng-click="collapse = !collapse">
+                    <a href="" style="text-decoration:none;">
+                        <div ng-include src="'step.html'"></div>
+                    </a>
+                </div>
+                <div ng-include src="'concept-steps.html'" ng-show="collapse"></div>
+            </div>
+            <div ng-switch-when="Table">
+                <div ng-include src="'datatable.html'"></div>
+            </div>
+
+            <div ng-switch-when="Scenario" class="scenarioItemsContainer" ng-show="showScenario(currentScenario)">
+                {{setCurrentScenario(item.scenario)}}
+                <div class="scenario-container"
+                     ng-class="{true:'failed', false:'passed', 'skipped':'skipped'}[getScenarioStatus(currentScenario)]">
+                    <div ng-include src="'scenario.html'"></div>
+                </div>
+            </div>
+
+            <div ng-switch-when="TableDrivenScenario">
+                {{setCurrentScenario(item.tableDrivenScenario.scenarios[dataTableIndex])}}
+                <div class="scenario-container"
+                     ng-class="{true:'failed', false:'passed', 'skipped':'skipped'}[getScenarioStatus(currentScenario)]">
+                    <div ng-include src="'scenario.html'"></div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="step.html">
+        <h5 ng-show="currentStep.stepExecutionResult.executionResult != undefined" class="execution-time">
+            <span class="time">{{formattedTime(currentStep.stepExecutionResult.executionResult.executionTime, "Execution Time : ")}}</span>
+        </h5>
+        <div ng-class="{true:'failed', false:'passed', 'undefined':'not-executed', 'skipped':'skipped'}[getStatus(currentStep)]">
+            <ul collapsable>
+                <li class="step">
+
+                    <div class="step-txt">
+                        <span ng-show="isConcept">{{ (collapse) ? "-" : "+" }}</span>
+                        <span ng-repeat="fragment in currentStep.fragments">
+                        <span ng-switch="fragmentTypesMap[fragment.fragmentType]">
+                            <span ng-switch-when="Text">
+                            {{fragment.text}}
+                            </span><span ng-switch-when="Parameter">
+                            <span ng-switch="paramTypesMap[fragment.parameter.parameterType]">
+                                <span ng-switch-when="Static" class="parameter">"{{fragment.parameter.value}}"
+                                </span>
+                                <span ng-switch-when="Dynamic" class="parameter">"{{fragment.parameter.value}}"
+                                </span>
+                                <span ng-switch-when="Special_String"><hovercard hover-tmpl-url="specialString.html">
+                                    &lt;{{fragment.parameter.name}}&gt;</hovercard>
+                                </span>
+                                <span ng-switch-when="Special_Table">
+                                    <hovercard hover-tmpl-url="parameterTableDetail.html">&lt;{{getFragmentName(fragment.parameter.name)}}&gt;</hovercard>
+                                </span>
+                                <div ng-switch-when="Table" class="inline-table">
+                                    <div ng-include src="'table.html'"></div>
+                                </div>
+                            </span>
+                            </span>
+                        </span>
+                    </span></div>
+                    <div class="error-container">
+                        <div ng-if="currentStep.stepExecutionResult.preHookFailure">
+                            {{setHookFailure(currentStep.stepExecutionResult.preHookFailure)}}
+                            <div class="error-heading">Before Step Failed: <span
+                                    class="error-message">{{hookFailure.errorMessage}}</span></div>
+                            <div ng-include src="'hook-failure.html'">
+                            </div>
+                        </div>
+                        <div ng-if="currentStep.stepExecutionResult.executionResult.failed && !isConcept">
+                            <div ng-include src="'step-failure.html'" class="failure_container"></div>
+                        </div>
+                        <div ng-if="currentStep.stepExecutionResult.postHookFailure">
+                            {{setHookFailure(currentStep.stepExecutionResult.postHookFailure)}}
+                            <div class="error-heading">After Step Failed: <span
+                                    class="error-message">{{hookFailure.errorMessage}}</span></div>
+                            <div ng-include src="'hook-failure.html'">
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+            {{setCurrentExecutionResult(currentStep.stepExecutionResult)}}
+            <div ng-include src="'step-messages.html'" ng-if="currentExecutionResult.skipped || currentExecutionResult.executionResult.message">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="step-messages.html">
+        <div class="message-container" ng-init="collapseMessages=true" ng-click="collapseMessages = !collapseMessages">
+            <h4 ng-if="currentExecutionResult.skipped">
+                <span class="skipReason" ng-show="currentExecutionResult.skipped">Skipped Reason : {{currentExecutionResult.skippedReason}}</span>
+            </h4>
+
+            <button class="collapse-messages-header" ng-if="currentExecutionResult.executionResult.message">
+                {{(collapseMessages) ? "- hide" : "+ show" }}
+            </button>
+            <div ng-if="collapseMessages" class="collapse-messages">
+                <div ng-repeat="msg in currentExecutionResult.executionResult.message track by $index"
+                     class="step-message">
+                    {{msg}}
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="nestedConceptStep.html">
+        <h5 ng-show="currentConceptStep.stepExecutionResult.executionResult != undefined" class="execution-time">
+            <span class="time">{{formattedTime(currentConceptStep.stepExecutionResult.executionResult.executionTime, "Execution Time : ")}}</span>
+        </h5>
+        <div ng-class="{true:'failed', false:'passed', 'undefined':'not-executed'}[currentConceptStep.stepExecutionResult.executionResult.failed]">
+            <ul collapsable>
+                <li class="step">
+                    <span ng-show="isConcept">{{ (collapse) ? "-" : "+" }}</span>
+                <span ng-repeat="fragment in currentConceptStep.fragments">
+                    <span ng-switch="fragmentTypesMap[fragment.fragmentType]">
+                        <span ng-switch-when="Text">
+                            {{fragment.text}}
+                        </span>
+                        <span ng-switch-when="Parameter">
+                            <span ng-switch="paramTypesMap[fragment.parameter.parameterType]">
+                                <span ng-switch-when="Static" class="parameter">
+                                    "{{fragment.parameter.value}}"
+                                </span>
+                                <span ng-switch-when="Dynamic" class="parameter">
+                                    "{{fragment.parameter.value}}"
+                                </span>
+                                <span ng-switch-when="Special_String">
+                                    <hovercard hover-tmpl-url="specialString.html">
+                                        &lt;{{fragment.parameter.name}}&gt;</hovercard>
+                                </span>
+                                <span ng-switch-when="Special_Table">
+                                        <hovercard hover-tmpl-url="parameterTableDetail.html">&lt;{{getFragmentName(fragment.parameter.name)}}&gt;</hovercard>
+                                </span>
+                                  <span ng-switch-when="Table">
+                                      <hovercard hover-tmpl-url="parameterTableDetail.html">&lt;{{getFragmentName(fragment.parameter.name)}}&gt;</hovercard>
+                                  </span>
+                            </span>
+                        </span>
+                    </span>
+                </span>
+                </li>
+            </ul>
+            <div class="error-container">
+                <div ng-if="currentStep.stepExecutionResult.preHookFailure">
+                    {{setHookFailure(currentStep.stepExecutionResult.preHookFailure)}}
+                    <div class="error-heading">Before Step Failed: <span
+                            class="error-message">{{hookFailure.errorMessage}}</span></div>
+                    <div ng-include src="'hook-failure.html'">
+                    </div>
+                </div>
+                <div ng-if="currentStep.stepExecutionResult.executionResult.failed && !isConcept">
+                    <div ng-include src="'conceptStep-failure.html'"></div>
+                </div>
+                <div ng-if="currentStep.stepExecutionResult.postHookFailure">
+                    {{setHookFailure(currentStep.stepExecutionResult.postHookFailure)}}
+                    <div class="error-heading">After Step Failed: <span
+                            class="error-message">{{hookFailure.errorMessage}}</span></div>
+                    <div ng-include src="'hook-failure.html'">
+                    </div>
+                </div>
+            </div>
+            {{setCurrentExecutionResult(currentConceptStep.stepExecutionResult)}}
+            <div ng-include src="'step-messages.html'">
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="concept-steps.html">
+        <div class="concept-steps">
+            <div ng-repeat="step in item.concept.steps">
+                {{setCurrentStep(step.step)}}
+                {{setConcept(step.concept)}}
+                <div ng-if="!isConcept">
+                    <div ng-include src="'step.html'"></div>
+                </div>
+                <div ng-if="isConcept">
+                    <div ng-init="collapse=false" ng-click="collapse = !collapse">
+                        {{setCurrentConceptStep(step.concept.conceptStep)}}
+                        <a href="" style="text-decoration:none;">
+                            <div ng-include src="'nestedConceptStep.html'"></div>
+                        </a>
+                    </div>
+                    <div ng-include src="'nested-concept.html'" ng-show="collapse"></div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="nested-concept.html">
+        <div class="concept-steps">
+            <div ng-repeat="step in getTopConcept().steps">
+                {{setCurrentConceptStep(step.step)}}
+                {{setConcept(step.concept)}}
+                <div ng-if="!isConcept">
+                    <div ng-include src="'nestedConceptStep.html'"></div>
+                </div>
+                <div ng-if="isConcept">
+                    <div ng-init="collapse=false" ng-click="collapse = !collapse">
+                        {{setCurrentConceptStep(step.concept.conceptStep)}}
+                        <a href="" style="text-decoration:none;">
+                            <div ng-include src="'nestedConceptStep.html'"></div>
+                        </a>
+                    </div>
+
+                    <div ng-include src="'nested-concept.html'" ng-show="collapse"></div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/ng-template" id="scenario.html">
+        <div class="scenario-head">
+            <h3 class="head borderBottom"> {{currentScenario.scenarioHeading}} </h3>
+            <span class="time">{{formattedTime(currentScenario.executionTime)}}</span>
+
+            <div ng-show="currentScenario.tags.length"
+                 class="tagsHolder scenario_tags contentSection">
+                <p class="tags">
+                    <strong>Tags:</strong>
+
+            <span ng-repeat="tag in currentScenario.tags">
+                {{tag}}{{$last ? '' : ', '}}
+            </span>
+                </p>
+            </div>
+        </div>
 
 
-        <ul>
-          <li><a href="https://github.com/getgauge/gauge-example-java/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/getgauge/gauge-example-java/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/getgauge/gauge-example-java">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h3>
-<a id="welcome-to-github-pages" class="anchor" href="#welcome-to-github-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Welcome to GitHub Pages.</h3>
+        <div class="error-container failed">
+            <div ng-if="currentScenario.preHookFailure">
+                {{setHookFailure(currentScenario.preHookFailure)}}
+                <div collapsable class="error-heading">Before Scenario Hook Failed: <span class="error-message">{{hookFailure.errorMessage}}</span>
+                </div>
+                <div ng-include src="'hook-failure.html'">
+                </div>
+            </div>
+            <div ng-if="currentScenario.postHookFailure">
+                {{setHookFailure(currentScenario.postHookFailure)}}
+                <div collapsable class="error-heading">After Scenario Hook Failed: <span class="error-message">{{hookFailure.errorMessage}}</span>
+                </div>
+                <div ng-include src="'hook-failure.html'">
+                </div>
+            </div>
+        </div>
+        <div ng-repeat="item in currentScenario.contexts">
+            <div ng-include src="'item-render.html'" class="context-step"></div>
+        </div>
+        <div class="scenarioComments" ng-bind-html="parseComments(currentScenario.scenarioItems)"></div>
+        <div class="scenarioItemsContainer" ng-repeat="item in currentScenario.scenarioItems">
+            <div ng-include src="'item-render.html'"></div>
+        </div>
+        {{addTearDownSteps(currentScenario.tearDownSteps)}}
+        <div ng-repeat="item in currentScenario.tearDownSteps">
+            <div ng-include src="'item-render.html'" class="context-step"></div>
+        </div>
+    </script>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here <a href="https://guides.github.com/features/mastering-markdown/">using GitHub Flavored Markdown</a>, select a template crafted by a designer, and publish. After your page is generated, you can check out the new <code>gh-pages</code> branch locally. If you’re using GitHub Desktop, simply sync your repository and you’ll see the new branch.</p>
+    <script type="text/ng-template" id="hook-failure.html">
+        <table class="exception-container">
+            <tbody>
+            <tr>
+                <td class="exception">
+                    <p class="stacktrace"> {{hookFailure.stackTrace}}</p>
+                </td>
+                <td class="screenshot-container" ng-show="hookFailure.screenShot">
+                    <div>
+                        <a href="{{getScreenshotSrc(hookFailure.screenShot)}}" rel="lightbox">
+                            <img ng-src="{{getScreenshotSrc(hookFailure.screenShot)}}"
+                                 class="screenshot-thumbnail"/>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </script>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Designer Templates</h3>
+    <script type="text/ng-template" id="step-failure.html">
+        <table class="exception-container" ng-show="currentStep.stepExecutionResult.executionResult.failed">
+            <tbody>
+            <tr>
+                <td class="exception">
+                    <h4 class="error-message">
+                        <p>{{currentStep.stepExecutionResult.executionResult.errorMessage}}</p>
+                    </h4>
+                    <p class="stacktrace">{{currentStep.stepExecutionResult.executionResult.stackTrace}}</p>
+                </td>
+                <td class="screenshot-container" ng-show="currentStep.stepExecutionResult.executionResult.screenShot">
+                    <div>
+                        <a href="{{getScreenshotSrc(currentStep.stepExecutionResult.executionResult.screenShot)}}"
+                           rel="lightbox">
+                            <img ng-src="{{getScreenshotSrc(currentStep.stepExecutionResult.executionResult.screenShot)}}"
+                                 class="screenshot-thumbnail"/>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </script>
 
-<p>We’ve crafted some handsome templates for you to use. Go ahead and click 'Continue to layouts' to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved.</p>
+    <script type="text/ng-template" id="conceptStep-failure.html">
+        <table class="exception-container" ng-show="currentConceptStep.stepExecutionResult.executionResult.failed">
+            <tbody>
+            <tr>
+                <td>
+                    <h4 class="error-message">
+                        <p>{{currentStep.stepExecutionResult.executionResult.errorMessage}}</p>
+                    </h4>
+                    <p class="stacktrace"> {{currentStep.stepExecutionResult.executionResult.stackTrace}}</p>
+                </td>
+                <td>
+                    <div>
+                        <a href="{{getScreenshotSrc(currentStep.stepExecutionResult.executionResult.screenShot)}}"
+                           rel="lightbox">
+                            <img ng-src="{{getScreenshotSrc(currentStep.stepExecutionResult.executionResult.screenShot)}}"
+                                 class="screenshot-thumbnail"/>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </script>
+</head>
 
-<h3>
-<a id="creating-pages-manually" class="anchor" href="#creating-pages-manually" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Creating pages manually</h3>
-
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor’s GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out our <a href="https://help.github.com/pages">documentation</a> or <a href="https://github.com/contact">contact support</a> and we’ll help you sort it out.</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/getgauge">getgauge</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
-      </footer>
+<body ng-controller="mainController">
+<header class="top">
+    <div class="header">
+        <div class="container">
+            <div class="logo"><img src="images/logo.png"></div>
+            <h2 class="project">Project: {{projectName}}</h2>
+        </div>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
-    
-  </body>
+</header>
+<main class="main-container">
+    <div class="container">
+        <div class="report-overview">
+            <div class="report_chart">
+                <div class="chart">
+                    <nvd3 options="options" data="data"></nvd3>
+                </div>
+                <div class="total-specs" ng-click="showAllSpecs()"><span class="value">{{totalSpecs}}</span> <span
+                        class="txt">Total specs</span></div>
+            </div>
+            <div class="report_test-results">
+                <ul>
+                    <li class="fail" ng-click="showFailedSpecs()"><span class="value">{{failed}}</span> <span
+                            class="txt">Failed</span></li>
+                    <li class="pass" ng-click="showPassedSpecs()"><span class="value">{{passed}}</span> <span
+                            class="txt">Passed</span></li>
+                    <li class="skip" ng-click="showSkippedSpecs()"><span class="value">{{skipped}}</span> <span
+                            class="txt">Skipped</span></li>
+                </ul>
+            </div>
+            <div class="report_details">
+                <ul>
+                    <li ng-repeat="summaryItem in summaryItems" ng-if="!isEmpty(summaryItem.value)">
+                        <label>{{summaryItem.key}} </label>
+                        <span ng-class="{'value':true,'failed':summaryItem.failed}">{{summaryItem.value}}</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="specifications">
+            <aside class="sidebar">
+                <h3 class="title">Specifications</h3>
+
+                <div class="searchbar">
+                    <input id="searchSpecifications" ng-model="searchQuery"
+                           placeholder="Type specification or tag name" type="text"/>
+                    <i class="fa fa-search"></i></div>
+
+
+                <div id="listOfSpecifications">
+                    <ul id="scenarios" class="spec-list">
+                        <li ng-repeat="specResult in filteredListOfSpecs | filter: searchItems(searchQuery) | orderBy:'-failed'"
+                            ng-class="{'failed': specResult.failed,'passed': !specResult.failed,'selected': currentSpec === specResult,'skipped':specResult.skipped}"
+                            class="spec-name"
+                            ng-init="setCurrentSpec($first, specResult)"
+                            ng-click="loadSpecification(specResult)"><span id="scenarioName" class="scenarioname">{{specResult.protoSpec.specHeading}}</span>
+                            <span id="time" class="time">{{formattedTime(specResult.executionTime)}}</span></li>
+                    </ul>
+                </div>
+            </aside>
+            <div class="congratulations details" ng-show="allPassed()&&currentSpec==undefined">
+                <p>Congratulations! You've gone all <span class="green">green</span> and saved the environment!</p>
+            </div>
+            <div id="specificationContainer" class="details">
+                <header class="curr-spec" ng-if="currentSpec">
+                    <h3 class="spec-head">{{currentSpec.protoSpec.specHeading}}</h3>
+                    <span class="time">{{formattedTime(currentSpec.executionTime)}}</span>
+
+                    <div ng-if="currentSpec.protoSpec.tags.length" class="tags scenario_tags contentSection">
+                        <strong>Tags:</strong><span ng-repeat="tag in currentSpec.protoSpec.tags"> {{tag}}</span></div>
+                </header>
+                <div class="error-container failed">
+                    <div class="content">
+                        <div ng-if="currentSpec.protoSpec.preHookFailure">
+                            {{setHookFailure(currentSpec.protoSpec.preHookFailure)}}
+                            <div collapsable class="error-heading">Before Spec Failed: <span class="error-message"><span
+                                    class="error-message">{{hookFailure.errorMessage}}</span></span></div>
+                            <div ng-include src="'hook-failure.html'"></div>
+                        </div>
+                        <div ng-if="currentSpec == undefined && isPreHookFailure">
+                            <div collapsable class="error-heading">Before Spec Failed: <span class="error-message"><span
+                                    class="error-message">{{hookFailure.errorMessage}}</span></span></div>
+                            <div ng-include src="'hook-failure.html'"></div>
+                        </div>
+                        <div ng-if="currentSpec.protoSpec.postHookFailure">
+                            {{setHookFailure(currentSpec.protoSpec.postHookFailure)}}
+                            <div collapsable class="error-heading">After Spec Failed: <span class="error-message">{{hookFailure.errorMessage}}</span>
+                            </div>
+                            <div ng-include src="'hook-failure.html'"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="specItemsContainer">
+                    <div class="content">
+                        <div class="specComments" ng-bind-html="parseComments(currentSpec.protoSpec.items)"></div>
+                        <div ng-repeat="item in sort(currentSpec.protoSpec.items)">
+                            <div ng-include src="'item-render.html'"></div>
+                        </div>
+                        <div ng-repeat="item in tearDownSteps">
+                            <div ng-include src="'item-render.html'"></div>
+                        </div>
+                    </div>
+                </div>
+                {{initializeLightbox()}}
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <p>Generated by Gauge HTML Report.</p>
+    </div>
+</footer>
+
+<script src="js/marked.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angular-sanitize.js"></script>
+<script src="js/angular-hovercard.js"></script>
+<script src="js/lightbox.js"></script>
+<script src="js/result.js" charset="utf-8"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/nv.d3.min.js"></script>
+<script src="js/angular-nvd3.js"></script>
+<script src="js/gauge.js"></script>
+
+</body>
 </html>
