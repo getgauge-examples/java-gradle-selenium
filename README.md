@@ -17,6 +17,7 @@ This example requires the following softwares to run.
   * [Gauge](http://getgauge.io/download.html)
   * Gauge Java plugin
     * Gauge Java plugin can be installed using `gauge --install java`
+  * Firefox
   
 ### Setting up the System Under Test (SUT)
 
