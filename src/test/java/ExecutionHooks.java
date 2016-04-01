@@ -1,8 +1,7 @@
-package com.thoughtworks.gauge.example;
+package test.java;
 
 import com.thoughtworks.gauge.*;
 import com.thoughtworks.gauge.Table;
-import com.thoughtworks.gauge.example.pages.ProductPage;
 import com.thoughtworks.gauge.example.pages.ProductListPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.PageFactory;
 public class ExecutionHooks {
 
     private final WebDriver driver;
-    private Table table;
 
     public ExecutionHooks() {
         this.driver=DriverFactory.getDriver();

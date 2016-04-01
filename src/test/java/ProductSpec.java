@@ -1,4 +1,4 @@
-package com.thoughtworks.gauge.example;
+package test.java;
 
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
