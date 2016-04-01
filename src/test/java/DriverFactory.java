@@ -42,5 +42,6 @@ public class DriverFactory {
     @AfterSuite
     public void TearDown() {
         driver.close();
+        driver.quit();
     }
 }
