@@ -41,6 +41,16 @@ gradlew.bat gauge
 ```
 This runs Gauge specs with [gradle](gradle.org).
 
+This uses Firefox as default browser for specs execution. Make sure Firefox(v42 or prior) is installed in your machine and is in PATH.
+
+If you want to use Chrome/IE as browser, pass the corresponding argument to set browser environment as follows:
+
+```
+./gradlew gauge -Penv=chrome
+or
+./gradlew gauge -Penv=ie
+```
+
 Note:
   * Gauge can also be used with other [build tools](http://getgauge.io/documentation/user/current/test_code/java/using_build_tools.html) like maven and ant.
   * You can use Gauge even without a build script!

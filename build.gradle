@@ -1,6 +1,7 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
+apply plugin: 'gauge'
 
 group = "gauge-example-java"
 version = "1.0.0"
@@ -15,6 +16,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:1.1.0'
+        classpath 'com.thoughtworks.gauge:gauge-java:+'
+        classpath 'org.seleniumhq.selenium:selenium-java:2.50.0'
+        classpath 'junit:junit:4.12'
+        classpath 'io.github.bonigarcia:webdrivermanager:1.4.1'
         classpath files("$projectDir/libs")
     }
 }
@@ -28,28 +34,8 @@ sourceSets {
 }
 
 dependencies {
-    compile(
-            'com.thoughtworks.gauge:gauge-java:+',
-            'org.seleniumhq.selenium:selenium-java:2.50.0',
-            'junit:junit:4.12',
-            'io.github.bonigarcia:webdrivermanager:1.4.1'
-    )
 }
 
-def executeGauge() {
-    exec {
-        executable "gauge"
-        args "specs"
-    }
-}
-
-task copyLibs(type: Copy) {
-    from configurations.runtime
-    into "$projectDir/libs"
-}
-
-task gauge(dependsOn: 'copyLibs') {
-    doLast  {
-        executeGauge()
-    }
+gauge {
+    specsDir = 'specs'
 }
