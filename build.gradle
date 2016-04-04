@@ -32,12 +32,21 @@ sourceSets {
 dependencies {
     compile (
         'com.thoughtworks.gauge:gauge-java:+',
-        'org.seleniumhq.selenium:selenium-java:2.50.0',
         'junit:junit:4.12',
         'io.github.bonigarcia:webdrivermanager:1.4.1'
     )
 }
 
+task copyLibs(type: Copy) {
+    from configurations.runtime
+   into "$projectDir/libs"
+}
+
 gauge {
     specsDir = 'specs'
 }
+
+task gaugew(dependsOn: ['copyLibs', 'gauge']) {
+}
+
+defaultTasks 'gaugew'
