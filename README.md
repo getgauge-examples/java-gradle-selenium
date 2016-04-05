@@ -37,7 +37,7 @@ java -jar activeadmin-demo.war
 ### On Windows
 
 ```
-gradlew.bat specs
+gradlew.bat
 ```
 This runs Gauge specs with [gradle](gradle.org).
 
