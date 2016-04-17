@@ -34,8 +34,4 @@ dependencies {
 
 gauge {
     specsDir = 'specs'
-    inParallel = true
-    nodes = 4
-    env = 'chrome'
-    additionalFlags = '--verbose'
 }
