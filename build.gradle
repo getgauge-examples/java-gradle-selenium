@@ -16,17 +16,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:1.1.0'
-        classpath files("$projectDir/libs")
+        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:1.4.1'
     }
 }
 
 repositories {
     mavenCentral()
-}
-
-sourceSets {
-    main.java.srcDir 'src'
 }
 
 dependencies {
@@ -37,16 +32,10 @@ dependencies {
     )
 }
 
-task copyLibs(type: Copy) {
-    from configurations.runtime
-   into "$projectDir/libs"
-}
-
 gauge {
     specsDir = 'specs'
+    inParallel = true
+    nodes = 4
+    env = 'chrome'
+    additionalFlags = '--verbose'
 }
-
-task gaugew(dependsOn: ['copyLibs', 'gauge']) {
-}
-
-defaultTasks 'gaugew'

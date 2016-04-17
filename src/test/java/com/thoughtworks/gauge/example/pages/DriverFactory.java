@@ -1,4 +1,4 @@
-package test.java;
+package com.thoughtworks.gauge.example.pages;
 
 import com.thoughtworks.gauge.AfterSuite;
 import com.thoughtworks.gauge.BeforeSuite;
@@ -10,28 +10,27 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class DriverFactory {
-    private static final String CHROME  = "chrome";
+    private static final String CHROME = "chrome";
     private static final String IE = "ie";
     private static final String DEFAULT = "firefox";
+    private static WebDriver driver;
 
     public static WebDriver getDriver() {
         return driver;
     }
 
-    private static WebDriver driver;
-
     @BeforeSuite
     public void Setup() {
         // Uses firefox driver by default
         String browser = System.getenv("BROWSER");
-        if (browser == null ) {
-            browser =  DEFAULT;
+        if (browser == null) {
+            browser = DEFAULT;
         }
 
         if (browser.toLowerCase().equals(CHROME)) {
             ChromeDriverManager.getInstance().setup();
             driver = new ChromeDriver();
-        } else if(browser.toLowerCase().equals(IE)) {
+        } else if (browser.toLowerCase().equals(IE)) {
             InternetExplorerDriverManager.getInstance().setup();
             driver = new InternetExplorerDriver();
         } else {
