@@ -1,8 +1,8 @@
-package test.java;
+package com.thoughtworks.gauge.example.pages;
+
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
 import com.thoughtworks.gauge.TableRow;
-import com.thoughtworks.gauge.example.pages.CustomerPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 

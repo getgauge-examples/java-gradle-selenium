@@ -1,12 +1,8 @@
-package test.java;
+package com.thoughtworks.gauge.example.pages;
 
 import com.thoughtworks.gauge.Step;
 import com.thoughtworks.gauge.Table;
 import com.thoughtworks.gauge.TableRow;
-import com.thoughtworks.gauge.example.pages.CreateProductPage;
-import com.thoughtworks.gauge.example.pages.EditProductPage;
-import com.thoughtworks.gauge.example.pages.ProductListPage;
-import com.thoughtworks.gauge.example.pages.ProductPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -18,7 +14,7 @@ public class ProductSpec {
     private Table table;
 
     public ProductSpec() {
-        this.driver=DriverFactory.getDriver();
+        this.driver = DriverFactory.getDriver();
     }
 
     @Step("Create a product <table>")
@@ -28,7 +24,7 @@ public class ProductSpec {
         for (TableRow row : rows) {
             openNewProductsPage();
             CreateProductPage createProductPage = PageFactory.initElements(driver, CreateProductPage.class);
-            createProductPage.create(row.getCell(columnNames.get(0)),row.getCell(columnNames.get(1)), row.getCell(columnNames.get(2)), row.getCell(columnNames.get(3)));
+            createProductPage.create(row.getCell(columnNames.get(0)), row.getCell(columnNames.get(1)), row.getCell(columnNames.get(2)), row.getCell(columnNames.get(3)));
         }
     }
 
@@ -42,6 +38,7 @@ public class ProductSpec {
         ProductListPage productListPage = PageFactory.initElements(driver, ProductListPage.class);
         productListPage.search(title);
     }
+
     @Step("Open description for product <name>")
     public void viewProductDescription(String name) {
         ProductListPage productListPage = PageFactory.initElements(driver, ProductListPage.class);

@@ -31,13 +31,13 @@ java -jar activeadmin-demo.war
 ### On Linux / Mac
 
 ```
-./gradlew
+./gradlew gauge
 ```
 
 ### On Windows
 
 ```
-gradlew.bat
+gradlew.bat gauge
 ```
 This runs Gauge specs with [Gradle](http://gradle.org).
 
@@ -46,9 +46,9 @@ This uses Firefox as default browser for specs execution. Make sure Firefox(v42 
 If you want to use Chrome/IE as browser, pass the corresponding argument to set browser environment as follows:
 
 ```
-./gradlew -Penv=chrome
+./gradlew gauge -Penv=chrome
 or
-./gradlew -Penv=ie
+./gradlew gauge -Penv=ie
 ```
 
 Note:

@@ -1,9 +1,9 @@
-package test.java;
+package com.thoughtworks.gauge.example.pages;
 
 import com.thoughtworks.gauge.Step;
-import com.thoughtworks.gauge.example.pages.SignUpPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
+
 import java.util.UUID;
 
 
