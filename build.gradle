@@ -16,7 +16,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:1.4.1'
+        classpath 'com.thoughtworks.gauge.gradle:gauge-gradle-plugin:+'
     }
 }
 
