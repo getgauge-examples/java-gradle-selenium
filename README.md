@@ -28,6 +28,10 @@ java -jar activeadmin-demo.war
 ```
 * The SUT should now be available at [http://localhost:8080/](http://localhost:8080)
 
+## Run specs
+
+If you already have Gradle installed, you can execute specs as `gradle specs`. Otherwise, you can use the gradle wrapper and run specs as below:
+
 ### On Linux / Mac
 
 ```
