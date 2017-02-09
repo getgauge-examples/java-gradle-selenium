@@ -10,9 +10,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class DriverFactory {
-    private static final String CHROME = "chrome";
+    private static final String FIREFOX = "firefox";
     private static final String IE = "ie";
-    private static final String DEFAULT = "firefox";
+    private static final String DEFAULT = "chrome";
     private static WebDriver driver;
 
     public static WebDriver getDriver() {
@@ -21,20 +21,21 @@ public class DriverFactory {
 
     @BeforeSuite
     public void Setup() {
-        // Uses firefox driver by default
+        // Uses chrome driver by default
         String browser = System.getenv("BROWSER");
         if (browser == null) {
             browser = DEFAULT;
         }
 
-        if (browser.toLowerCase().equals(CHROME)) {
-            ChromeDriverManager.getInstance().setup();
-            driver = new ChromeDriver();
+        if (browser.toLowerCase().equals(FIREFOX)) {
+            FirefoxDriverManager.getInstance().setup();
+            driver = new FirefoxDriver();
         } else if (browser.toLowerCase().equals(IE)) {
             InternetExplorerDriverManager.getInstance().setup();
             driver = new InternetExplorerDriver();
         } else {
-            driver = new FirefoxDriver();
+            ChromeDriverManager.getInstance().setup();
+            driver = new ChromeDriver();
         }
     }
 
