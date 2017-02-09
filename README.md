@@ -7,7 +7,7 @@
 This is an example project for doing web automation testing with [Gauge](http://getgauge.io). This project tests some of the functionalities of the [active admin demo](https://github.com/getgauge/activeadmin-demo) app. This app is hosted as a Java WAR (with embedded Jetty). 
 
 ## Running this example
-The tests are run on Firefox by default.
+The tests are run on Chrome by default.
 
 ### Prerequisites
 
@@ -17,7 +17,7 @@ This example requires the following softwares to run.
   * [Gauge](http://getgauge.io/get-started/index.html)
   * Gauge Java plugin
     * can be installed using `gauge --install java`
-  * Firefox
+  * Chrome
   
 ### Setting up the System Under Test (SUT)
 
@@ -45,12 +45,12 @@ gradlew.bat gauge
 ```
 This runs Gauge specs with [Gradle](http://gradle.org).
 
-This uses Firefox as default browser for specs execution. Make sure Firefox(v42 or prior) is installed in your machine and is in PATH.
+This uses Chrome as default browser for specs execution. Make sure Chrome is installed in your machine and [chromedriver](https://sites.google.com/a/chromium.org/chromedriver/) is in PATH.
 
-If you want to use Chrome/IE as browser, pass the corresponding argument to set browser environment as follows:
+If you want to use Firefox/IE as browser, pass the corresponding argument to set browser environment as follows:
 
 ```
-./gradlew gauge -Penv=chrome
+./gradlew gauge -Penv=firefox
 or
 ./gradlew gauge -Penv=ie
 ```
