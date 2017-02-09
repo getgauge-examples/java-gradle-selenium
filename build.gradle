@@ -28,7 +28,8 @@ dependencies {
     compile (
         'com.thoughtworks.gauge:gauge-java:+',
         'junit:junit:4.12',
-        'io.github.bonigarcia:webdrivermanager:1.4.1'
+        'org.seleniumhq.selenium:selenium-java:3.0.1',
+        'io.github.bonigarcia:webdrivermanager:1.6.0'
     )
 }
 
