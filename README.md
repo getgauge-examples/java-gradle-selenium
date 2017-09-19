@@ -5,7 +5,7 @@ Refer https://github.com/getgauge-examples/gauge-active-admin-example-maven and 
 
 # Gauge example in Java
 
-[![Build Status](https://travis-ci.org/getgauge/gauge-example-java.svg?branch=master)](https://travis-ci.org/getgauge/gauge-example-java)
+[![Build Status](https://travis-ci.org/getgauge-examples/java-gradle-selenium.svg?branch=master)](https://travis-ci.org/getgauge-examples/java-gradle-selenium)
 [![HTML report](https://img.shields.io/badge/report-html-green.svg)](http://gauge-example-reports.herokuapp.com/java)
 [![Console report](https://img.shields.io/badge/report-console-blue.svg)](http://gauge-example-reports.herokuapp.com/java/console)
 
