@@ -6,8 +6,6 @@ Refer https://github.com/getgauge-examples/gauge-active-admin-example-maven and 
 # Gauge example in Java
 
 [![Build Status](https://travis-ci.org/getgauge-examples/java-gradle-selenium.svg?branch=master)](https://travis-ci.org/getgauge-examples/java-gradle-selenium)
-[![HTML report](https://img.shields.io/badge/report-html-green.svg)](http://gauge-example-reports.herokuapp.com/java)
-[![Console report](https://img.shields.io/badge/report-console-blue.svg)](http://gauge-example-reports.herokuapp.com/java/console)
 
 This is an example project for doing web automation testing with [Gauge](http://getgauge.io). This project tests some of the functionalities of the [active admin demo](https://github.com/getgauge/activeadmin-demo) app. This app is hosted as a Java WAR (with embedded Jetty). 
 
