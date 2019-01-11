@@ -59,15 +59,15 @@ or
 ```
 
 Note:
-  * Gauge can also be used with other [build tools](http://getgauge.io/documentation/user/current/test_code/java/using_build_tools.html) like maven and ant.
+  * Gauge can also be used with other [build tools](https://docs.gauge.org/latest/configuration.html#build-tools) like maven and ant.
   * You can use Gauge even without a build script!
 
 ## Topics covered in the example
 
-* [Specification](http://getgauge.io/documentation/user/current/specifications/index.html), [Scenario](http://getgauge.io/documentation/user/current/specifications/scenarios.html),  [Step](http://getgauge.io/documentation/user/current/specifications/steps.html), [Concepts](http://getgauge.io/documentation/user/current/specifications/concepts.html) and [Context Steps](http://getgauge.io/documentation/user/current/specifications/contexts.html)
-* [Table parameters](http://getgauge.io/documentation/user/current/specifications/parameters.html#table-parameter)
-* Using [External datasource (special param)](http://getgauge.io/documentation/user/current/specifications/parameters.html#special-parameters)
-* Using [tags](http://getgauge.io/documentation/user/current/specifications/tags.html)
+* [Specification](https://docs.gauge.org/latest/writing-specifications.html#specifications-spec), [Scenario](https://docs.gauge.org/latest/writing-specifications.html#scenario),  [Step](https://docs.gauge.org/latest/writing-specifications.html#step), [Concepts](https://docs.gauge.org/latest/writing-specifications.html#concepts) and [Context Steps](https://docs.gauge.org/latest/writing-specifications.html#longstart-context)
+* [Table parameters](https://docs.gauge.org/latest/writing-specifications.html#table-parameters)
+* Using [External datasource (special param)](https://docs.gauge.org/latest/writing-specifications.html#special-parameters)
+* Using [tags](https://docs.gauge.org/latest/writing-specifications.html#tags)
 * Using Gauge with [Selenium Webdriver](http://docs.seleniumhq.org/projects/webdriver/)
 * Running Gauge specs with [Gradle](http://gradle.org)
 
