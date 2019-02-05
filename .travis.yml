@@ -21,5 +21,4 @@ script:
   - curl -L https://bintray.com/artifact/download/gauge/activeadmin-demo/activeadmin-demo.war -O
   - nohup java -jar activeadmin-demo.war >/dev/null 2>&1 &
   - sleep 30
-  - chmod +x gradlew
   - ./gradlew clean gauge
