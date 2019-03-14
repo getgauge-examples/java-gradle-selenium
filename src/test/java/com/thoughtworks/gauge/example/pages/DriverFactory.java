@@ -2,9 +2,7 @@ package com.thoughtworks.gauge.example.pages;
 
 import com.thoughtworks.gauge.AfterSuite;
 import com.thoughtworks.gauge.BeforeSuite;
-import io.github.bonigarcia.wdm.ChromeDriverManager;
-import io.github.bonigarcia.wdm.FirefoxDriverManager;
-import io.github.bonigarcia.wdm.InternetExplorerDriverManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -29,13 +27,13 @@ public class DriverFactory {
         }
 
         if (browser.toLowerCase().equals(FIREFOX)) {
-            FirefoxDriverManager.getInstance().setup();
+            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
         } else if (browser.toLowerCase().equals(IE)) {
-            InternetExplorerDriverManager.getInstance().setup();
+            WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver();
         } else {
-            ChromeDriverManager.getInstance().setup();
+            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
         }
     }
