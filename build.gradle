@@ -1,6 +1,5 @@
 apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'application'
 apply plugin: 'gauge'
 
 group = "gauge-example-java"
